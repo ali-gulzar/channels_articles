@@ -4,7 +4,7 @@ install-requirements:
 
 PHONY: run-api-locally
 run-api-locally: install-requirements
-	OFFLINE=true uvicorn main:app --reload 
+	OFFLINE=true uvicorn app.main:fastapi_app --reload 
 
 PHONY: generate-openapi
 generate-openapi:
