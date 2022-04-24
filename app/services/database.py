@@ -15,7 +15,7 @@ CHANNEL_EXISTS_SQL = "SELECT id FROM channels WHERE id = (?)"
 GET_ARTICLE_SQL = (
     "SELECT id, url, words FROM articles WHERE id = (?) AND channel_id = (?)"
 )
-ADD_ARTICLE_SQL = "INSERT INTO articles VALUES (?, ?, ?, ?) RETURNING id"
+ADD_ARTICLE_SQL = "INSERT INTO articles VALUES (?, ?, ?, ?)"
 PATCH_ARTICLE_SQL = (
     "UPDATE articles SET url = (?), words = (?) WHERE channel_id = (?) AND id = (?)"
 )
@@ -51,15 +51,14 @@ def create_table():
 
 def _query_db(query: str, params: Dict = {}, fetch_one: bool = False):
     cursor.execute(query, params)
-    if fetch_one:
-        rows = cursor.fetchone()
-    else:
-        rows = cursor.fetchall()
-    return rows
+    if fetch_one is True:
+        return cursor.fetchone()
+    elif fetch_one is False:
+        return cursor.fetchall()
 
 
-def add_channel(channel_id: int):
-    (id,) = _query_db(ADD_CHANNEL_SQL, (None, channel_id), fetch_one=True)
+def add_channel(channel_name: str):
+    (id,) = _query_db(ADD_CHANNEL_SQL, (None, channel_name), fetch_one=True)
     connection.commit()
     return id
 

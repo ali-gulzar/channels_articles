@@ -2,4 +2,3 @@
 .pytest_cache
 *.db
 venv
-.git
